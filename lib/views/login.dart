@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../env.dart';
 import '../main.dart';
@@ -23,22 +24,23 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 130),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Login",
-                    style: TextStyle(
+                    style: GoogleFonts.montserrat(
                         fontWeight: FontWeight.bold,
                         fontSize: 35,
                         color: primary),
                   ),
                 ),
                 const SizedBox(height: 7),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Silahkan Login",
-                    style: TextStyle(color: Colors.grey, letterSpacing: 1),
+                    style: GoogleFonts.montserrat(
+                        color: Colors.grey, letterSpacing: 1),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -46,11 +48,12 @@ class LoginScreen extends StatelessWidget {
                   key: form,
                   child: Column(
                     children: [
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Username",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                       const SizedBox(height: 5),
@@ -86,11 +89,12 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Password",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: GoogleFonts.montserrat(
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                       const SizedBox(height: 5),
@@ -144,7 +148,10 @@ class LoginScreen extends StatelessWidget {
                               .then((value) {
                             if (box.read('token') != null) {
                               form.currentState!.reset();
-                              Get.offAll(const MainScreen());
+                              Get.offAll(
+                                const MainScreen(),
+                                transition: Transition.leftToRight,
+                              );
                             }
                           });
                         }
@@ -152,9 +159,9 @@ class LoginScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primary,
                       ),
-                      child: const Text(
+                      child: Text(
                         'Login',
-                        style: TextStyle(
+                        style: GoogleFonts.montserrat(
                           fontSize: 15,
                           color: Colors.white,
                         ),

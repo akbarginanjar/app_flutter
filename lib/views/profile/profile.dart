@@ -2,6 +2,7 @@ import 'package:app_flutter/env.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../main.dart';
 import '../login.dart';
@@ -28,9 +29,9 @@ class ProfileScreen extends StatelessWidget {
           )
         ],
         elevation: 0,
-        title: const Text(
+        title: Text(
           "PROFILE",
-          style: TextStyle(
+          style: GoogleFonts.montserrat(
             color: primary,
           ),
         ),
@@ -54,7 +55,7 @@ class ProfileScreen extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               GetStorage().read('user')['usernama'].toString(),
-              style: const TextStyle(
+              style: GoogleFonts.montserrat(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
                 color: primary,
@@ -66,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               GetStorage().read('user')['useremail'].toString(),
-              style: const TextStyle(
+              style: GoogleFonts.montserrat(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -109,7 +110,11 @@ class AlertDialogs {
               TextButton(
                 onPressed: () {
                   box.remove('token');
-                  Get.offAll(const LoginScreen());
+                  Get.offAll(
+                    const LoginScreen(),
+                    duration: const Duration(seconds: 1),
+                    transition: Transition.leftToRight,
+                  );
                 },
                 child: const Text(
                   "Ya",

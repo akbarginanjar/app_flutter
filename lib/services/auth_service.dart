@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:app_flutter/env.dart';
 import 'package:app_flutter/models/user_model.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -15,19 +16,17 @@ class AuthController extends GetConnect {
           "username": username,
           "pass": pass,
         };
-        // EasyLoading.show(
-        //   status: 'loading...',
-        // );
-        final Response conn = await get('$url/Login', query: body);
+        EasyLoading.show(
+          status: 'loading...',
+        );
+        final Response conn = await post('$url/Login', body);
         if (conn.statusCode == 200) {
-          // EasyLoading.showSuccess('Login Berhasil!');
-          Get.snackbar('Login Berhasil', 'Anda Telah Berhasil Login.');
+          EasyLoading.showSuccess('Login Berhasil!');
           box.write('token', conn.body['token']);
           box.write('user', conn.body);
           return User.fromJson(conn.body);
         } else {
-          // EasyLoading.showError('Akun Tidak Ditemukan!');
-          Get.snackbar('Login Gagal', 'Username atau Password salah.');
+          EasyLoading.showError('Akun Tidak Ditemukan!');
         }
         // Get.snackbar("Gagal Login", conn.body['message']);
       }
@@ -45,21 +44,3 @@ class AuthController extends GetConnect {
     return User();
   }
 }
-  //   if (passwordController.text.isNotEmpty &&
-  //       usernameController.text.isNotEmpty) {
-  //     var response = await http.post(Uri.parse("$serverIp/login"),
-  //         body: ({
-  //           'username': usernameController.text,
-  //           'password': passwordController.text
-  //         }));
-  //     if (response.statusCode == 200) {
-  //       var loginArr = json.decode(response.body);
-  //       print(loginArr);
-  //     } else {
-  //       print("salah");
-  //     }
-  //   } else {
-  //     print("tdk kosong");
-  //   }
-  // }
-// }

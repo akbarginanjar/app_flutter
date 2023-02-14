@@ -1,31 +1,22 @@
-import 'dart:async';
-
+import 'package:app_flutter/views/login.dart';
+import 'package:app_flutter/views/main_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import '../env.dart';
-import 'login.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:splash_screen_view/SplashScreenView.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 2), () {
-      Get.to(const LoginScreen());
-    });
-    return const Scaffold(
-      backgroundColor: primary,
-      body: Center(
-        child: Text(
-          "WELCOME",
-          style: TextStyle(
-            fontSize: 35,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+    return SplashScreenView(
+      navigateRoute: GetStorage().read('token') != null
+          ? const MainScreen()
+          : const LoginScreen(),
+      duration: 4000,
+      imageSize: 30,
+      imageSrc: "assets/image/hikaron.jpg",
+      backgroundColor: Colors.white,
     );
   }
 }

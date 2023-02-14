@@ -1,22 +1,27 @@
 class User {
   int? userid;
-  String? username;
-  String? pass;
+  String? usernama;
+  String? password;
   String? useremail;
+  String? token;
+  String? tokenExpireDate;
 
-  User({
-    this.userid,
-    this.username,
-    this.pass,
-    this.useremail,
-  });
+  User(
+      {this.userid,
+      this.usernama,
+      this.password,
+      this.useremail,
+      this.token,
+      this.tokenExpireDate});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      userid: json['userid'] ?? 0,
-      username: json['username'] ?? '',
-      pass: json['pass'] ?? '',
+      userid: json['userid'],
+      usernama: json['usernama'] ?? '',
+      password: json['password'] ?? '',
       useremail: json['useremail'] ?? '',
+      token: json['token'] ?? '',
+      tokenExpireDate: json['token_expire_date'] ?? '',
     );
   }
 }
