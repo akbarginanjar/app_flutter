@@ -112,8 +112,7 @@ class AlertDialogs {
                   box.remove('token');
                   Get.offAll(
                     const LoginScreen(),
-                    duration: const Duration(seconds: 1),
-                    transition: Transition.leftToRight,
+                    transition: Transition.rightToLeft,
                   );
                 },
                 child: const Text(

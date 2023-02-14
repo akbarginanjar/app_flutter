@@ -150,7 +150,7 @@ class LoginScreen extends StatelessWidget {
                               form.currentState!.reset();
                               Get.offAll(
                                 const MainScreen(),
-                                transition: Transition.leftToRight,
+                                transition: Transition.rightToLeft,
                               );
                             }
                           });

@@ -19,7 +19,7 @@ class AuthController extends GetConnect {
         EasyLoading.show(
           status: 'loading...',
         );
-        final Response conn = await post('$url/Login', body);
+        final Response conn = await get('$url/Login', query: body);
         if (conn.statusCode == 200) {
           EasyLoading.showSuccess('Login Berhasil!');
           box.write('token', conn.body['token']);
