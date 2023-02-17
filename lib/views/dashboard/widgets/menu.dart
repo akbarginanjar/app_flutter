@@ -24,7 +24,6 @@ get menu => Row(
                 onTap: () {
                   Get.to(
                     const StockOpname(),
-                    transition: Transition.leftToRight,
                   );
                 },
                 splashColor: Colors.amber,
@@ -59,7 +58,6 @@ get menu => Row(
                 onTap: () {
                   Get.to(
                     const DoRealization(),
-                    transition: Transition.rightToLeft,
                   );
                 },
                 splashColor: Colors.amber,
