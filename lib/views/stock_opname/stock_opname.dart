@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../models/barang_model.dart';
 import '../../services/opname_code_service.dart';
 
 class StockOpname extends StatefulWidget {
@@ -14,11 +15,15 @@ class StockOpname extends StatefulWidget {
 }
 
 class _StockOpnameState extends State<StockOpname> {
+  // TextEditingController qrCode = TextEditingController();
   // TextEditingController code = TextEditingController();
   OpnameCodeController opnameCodeController = OpnameCodeController();
   String code = '';
+  String qrCode = '';
   // ignore: prefer_typing_uninitialized_variables
-  var triger;
+  var trigerOpname;
+  // ignore: prefer_typing_uninitialized_variables
+  var trigerBarang;
   // String getcode = '';
 
   // Future scanbarcode() async {
@@ -27,17 +32,18 @@ class _StockOpnameState extends State<StockOpname> {
   // }
 
   checkScan() async {
-    await opnameCodeController.getOpnameCode(code: code);
+    // await opnameCodeController.getOpnameCode(code: code.text);
     code = await FlutterBarcodeScanner.scanBarcode(
         '#009922', 'CANCEL', true, ScanMode.DEFAULT);
     setState(() {
-      triger = OpnameCode();
+      trigerOpname = OpnameCode();
     });
   }
 
   @override
   void initState() {
-    triger = OpnameCode();
+    trigerOpname = OpnameCode();
+    trigerBarang = Barang();
     super.initState();
   }
 
@@ -117,96 +123,175 @@ class _StockOpnameState extends State<StockOpname> {
                             ),
                           ),
                         ),
+                        // TextFormField(
+                        //   controller: TextEditingController(
+                        //       text: snapshot.data!.stockopnameOid.toString()),
+                        // ),
+                        // TextFormField(
+                        //   controller: qrCode,
+                        // ),
+                        // ElevatedButton(
+                        //   onPressed: () {
+                        //     opnameCodeController.getBarang(
+                        //       opnameOid:
+                        //           snapshot.data!.stockopnameOid.toString(),
+                        //       qrCode: qrCode.text,
+                        //     );
+                        //   },
+                        //   child: const Text('cek'),
+                        // )
+
+                        const Divider(),
+                        const SizedBox(height: 30),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'QR Code',
+                            style: GoogleFonts.montserrat(),
+                          ),
+                        ),
+                        // TextFormField(
+                        //   controller: qrCode,
+                        // ),
+                        const SizedBox(height: 6),
+                        SizedBox(
+                          height: 40,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              // scanbarcode();
+                              // opnameCodeController.getOpnameCode(code: code.text);
+
+                              qrCode = await FlutterBarcodeScanner.scanBarcode(
+                                  '#009922', 'CANCEL', true, ScanMode.DEFAULT);
+                              // opnameCodeController.getBarang(
+                              //   opnameOid:
+                              //       snapshot.data!.stockopnameOid.toString(),
+                              //   qrCode: qrCode,
+                              // );
+                              setState(() {
+                                trigerBarang = Barang();
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              elevation: 10,
+                              shadowColor: Colors.black54,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.qr_code,
+                                  color: Colors.black,
+                                ),
+                                const SizedBox(width: 10),
+                                Text(
+                                  "Scan Barang",
+                                  style: GoogleFonts.montserrat(
+                                      color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        FutureBuilder<Barang>(
+                            future: OpnameCodeController().getBarang(
+                                opnameOid:
+                                    snapshot.data!.stockopnameOid.toString(),
+                                qrCode: qrCode),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Code : ',
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 17),
+                                        ),
+                                        Text(
+                                            snapshot.data!
+                                                        .stockopnamedBarcode ==
+                                                    null
+                                                ? '-'
+                                                : snapshot
+                                                    .data!.stockopnamedBarcode
+                                                    .toString(),
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 17)),
+                                      ],
+                                    ),
+                                    const Divider(),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Design : ',
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 17),
+                                        ),
+                                        Text(
+                                            snapshot.data!.designName == null
+                                                ? '-'
+                                                : snapshot.data!.designName
+                                                    .toString(),
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 17)),
+                                      ],
+                                    ),
+                                    const Divider(),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Color : ',
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 17),
+                                        ),
+                                        Text(
+                                            snapshot.data!.colorCode == null
+                                                ? '-'
+                                                : snapshot.data!.colorCode
+                                                    .toString(),
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 17)),
+                                      ],
+                                    ),
+                                    const Divider(),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Qty : ',
+                                          style: GoogleFonts.montserrat(
+                                              fontSize: 17),
+                                        ),
+                                        Text(
+                                            snapshot.data!.stockopnamedQty ==
+                                                    null
+                                                ? '-'
+                                                : snapshot.data!.stockopnamedQty
+                                                    .toString(),
+                                            style: GoogleFonts.montserrat(
+                                                fontSize: 17)),
+                                      ],
+                                    ),
+                                    const Divider(),
+                                  ],
+                                );
+                              }
+                              return const CircularProgressIndicator(
+                                color: Color.fromARGB(255, 199, 199, 199),
+                              );
+                            }),
                       ],
                     );
                   }
-                  return const CircularProgressIndicator(
-                    color: Color.fromARGB(255, 199, 199, 199),
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Color.fromARGB(255, 199, 199, 199),
+                    ),
                   );
                 }),
-            const Divider(),
-            const SizedBox(height: 30),
-            Text(
-              'QR Code',
-              style: GoogleFonts.montserrat(),
-            ),
-            const SizedBox(height: 6),
-            // TextFormField(
-            //   controller: code,
-            // ),
-            SizedBox(
-              height: 40,
-              child: ElevatedButton(
-                onPressed: () {
-                  // scanbarcode();
-                  // opnameCodeController.getOpnameCode(code: code.text);
-                  // checkScan();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  elevation: 10,
-                  shadowColor: Colors.black54,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.qr_code,
-                      color: Colors.black,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      "Scan Barang",
-                      style: GoogleFonts.montserrat(color: Colors.black),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            Row(
-              children: [
-                Text(
-                  'Code : ',
-                  style: GoogleFonts.montserrat(fontSize: 20),
-                ),
-                Text('-', style: GoogleFonts.montserrat(fontSize: 20)),
-              ],
-            ),
-            const Divider(),
-
-            Row(
-              children: [
-                Text(
-                  'Design : ',
-                  style: GoogleFonts.montserrat(fontSize: 20),
-                ),
-                Text('-', style: GoogleFonts.montserrat(fontSize: 20)),
-              ],
-            ),
-            const Divider(),
-
-            Row(
-              children: [
-                Text(
-                  'Color : ',
-                  style: GoogleFonts.montserrat(fontSize: 20),
-                ),
-                Text('-', style: GoogleFonts.montserrat(fontSize: 20)),
-              ],
-            ),
-            const Divider(),
-
-            Row(
-              children: [
-                Text(
-                  'Qty : ',
-                  style: GoogleFonts.montserrat(fontSize: 20),
-                ),
-                Text('-', style: GoogleFonts.montserrat(fontSize: 20)),
-              ],
-            ),
-            const Divider(),
             const SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -217,12 +302,12 @@ class _StockOpnameState extends State<StockOpname> {
                     height: 37,
                     child: ElevatedButton(
                       onPressed: () {},
-                      child: Text('New Data', style: GoogleFonts.montserrat()),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 24, 175, 29),
+                        backgroundColor: const Color.fromARGB(255, 24, 175, 29),
                         elevation: 10,
                         shadowColor: Colors.black54,
                       ),
+                      child: Text('New Data', style: GoogleFonts.montserrat()),
                     ),
                   ),
                 ),
@@ -234,12 +319,12 @@ class _StockOpnameState extends State<StockOpname> {
                     width: 100,
                     child: ElevatedButton(
                       onPressed: () {},
-                      child: Text('Save', style: GoogleFonts.montserrat()),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primary,
                         elevation: 10,
                         shadowColor: Colors.black54,
                       ),
+                      child: Text('Save', style: GoogleFonts.montserrat()),
                     ),
                   ),
                 )
