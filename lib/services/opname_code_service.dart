@@ -71,4 +71,46 @@ class OpnameCodeController extends GetConnect {
 
     return Barang();
   }
+
+  Future<Barang> addBarang({
+    required String stockopnameOid,
+    required String stockopnamedStockopnameOid,
+    required int stockopnamedPtId,
+    required String stockopnamedBarcode,
+    required int stockopnamedQtyOpname,
+    required String stockopnamedUpdBy,
+  }) async {
+    try {
+      // EasyLoading.show();
+      final String token = GetStorage().read('token');
+      final body = {
+        'stockopnamed_oid': stockopnameOid,
+        'stockopnamed_stockopname_oid': stockopnamedStockopnameOid,
+        'stockopnamed_pt_id': stockopnamedPtId,
+        'stockopnamed_barcode': stockopnamedBarcode,
+        'stockopnamed_qty_opname': stockopnamedQtyOpname,
+        'stockopnamed_upd_by': stockopnamedUpdBy,
+      };
+      final conn = await post(
+          '$url/StockOpname/EntryStockOpname',
+          headers: {
+            'authorization': 'Bearer $token',
+            "Content-Type": "application/json",
+          },
+          body);
+      if (conn.statusCode == 200) {}
+    } on TimeoutException {
+      Get.snackbar('Masalah Koneksi',
+          'Jaringan lemah\nsilahkan perbaiki jaringan anda!');
+    } on SocketException {
+      Get.snackbar('Masalah Koneksi',
+          'Data dalam keadaan mati\nsilahkan nyalakan data anda!');
+    } on HttpException catch (e) {
+      Get.snackbar('Masalah Koneksi', e.message);
+    } on Error catch (e) {
+      Get.snackbar(e.toString(), e.stackTrace.toString());
+    }
+
+    return Barang();
+  }
 }
